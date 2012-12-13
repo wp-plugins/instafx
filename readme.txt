@@ -39,7 +39,7 @@ Default filters:
 * Hemingway
 * Concentrate
 
-[youtube http://youtu.be/fCOBkPPlAgU]
+[embed]http://youtu.be/fCOBkPPlAgU[/embed]
 
 == Installation ==
 
