@@ -39,6 +39,8 @@ Default filters:
 * Hemingway
 * Concentrate
 
+[youtube http://youtu.be/fCOBkPPlAgU]
+
 == Installation ==
 
 1. Upload the files to the '/wp-content/plugins/instafx/' directory
