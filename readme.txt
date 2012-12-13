@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Power up your WordPress site with InstaFX, Add filtering to your WordPress images. vintage, lomo, clarity, sinCity, sunrise, crossProcess, orangPeel, love, grungy, jarques, pinhole, oldBoot, glowingSun, hazyDays, herMajesty, nostalgia, hemingway, concentrate, and more.
+Power up your WordPress site with InstaFX, Add filtering to your WordPress images. vintage, lomo, clarity, sinCity, sunrise, crossProcess, and more.
 
 == Description ==
 The main focus of InstaFX is manipulating images using the HTML5 canvas and Javascript. It's a combination of a simple-to-use interface with advanced and efficient image/canvas editing techniques.
@@ -44,6 +44,16 @@ Default filters:
 1. Upload the files to the '/wp-content/plugins/instafx/' directory
 2. Activate the "InstaFX" plugin through the 'Plugins' menu in WordPress
 
+= Minimum Requirements =
+
+* WordPress 3.3 or greater
+* PHP version 5.2.4 or greater
+* MySQL version 5.0 or greater
+
+= Upgrading =
+
+Automatic updates should work a charm; as always though, ensure you backup your site just in case. 
+
 == Screenshots ==
 
 1. Upload your image.
@@ -53,9 +63,8 @@ Default filters:
 == Changelog ==
 
 = 1.0.0 =
-First release.
+* First release!
 
 == Upgrade Notice ==
 
-= 1.0 =
-First release.
+No upgrade notices at this point.
