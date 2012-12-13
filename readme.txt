@@ -44,6 +44,12 @@ Default filters:
 1. Upload the files to the '/wp-content/plugins/instafx/' directory
 2. Activate the "InstaFX" plugin through the 'Plugins' menu in WordPress
 
+== Screenshots ==
+
+1. Upload your image.
+2. Choose the filters for your image
+3. Insert your image into the post and publish your post.
+
 == Changelog ==
 
 = 1.0.0 =
