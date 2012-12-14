@@ -42,7 +42,7 @@ class Colabs_Photofilter
 			if($datavaluefilter!='')
 			foreach($datavaluefilter as $key => $valuef ) $valuefilter .= $valuef.' '; 
 		
-			$filters = array('vintage', 'lomo', 'clarity', 'sinCity', 'sunrise', 'crossProcess', 'orangPeel', 'love', 'grungy', 'jarques', 'pinhole', 'oldBoot', 'glowingSun', 'hazyDays', 'herMajesty', 'nostalgia', 'hemingway', 'concentrate');
+			$filters = array( 'majesty', 'sunrise', 'cross', 'peel', 'love', 'pinhole', 'glowing', 'hazy', 'nostalgia', 'hemingway', 'boot');
 			sort($filters);
 			$i=0;
 			foreach($filters as $filter => $value){ 
