@@ -2,9 +2,9 @@
 /*
 Plugin Name: InstaFX
 Plugin URI: http://colorlabsproject.com
-Description: Get your photo Effects.
+Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
 Version: 1.0
-Author: Dadan Arifin
+Author: ColorLabs & Company
 Author URI: htttp://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
