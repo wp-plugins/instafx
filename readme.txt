@@ -1,14 +1,14 @@
 === InstaFX by ColorLabs & Company ===
 Contributors: colorlabs
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@colorlabsproject.com&item_name=Donation+for+InstaFX
-Tags: vintage, lomo, clarity, sinCity, sunrise, crossProcess, orangPeel, love, grungy, jarques, pinhole, oldBoot, glowingSun, hazyDays, herMajesty, nostalgia, hemingway, concentrate, Filter, Image, Effect, Camanjs
+Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.3
 Tested up to: WordPress 3.4.2
 Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Power up your WordPress site with InstaFX, Add filtering to your WordPress images. Vintage, Lomo, Clarity, SinCity, Sunrise, CrossProcess, and more.
+Power up your WordPress site with InstaFX, Add filtering to your WordPress images. Majesty, Sunrise, Cross, Peel, Love, Pinhole, and more.
 
 == Description ==
 The main focus of InstaFX is manipulating images using the HTML5 canvas and Javascript. It's a combination of a simple-to-use interface with advanced and efficient image/canvas editing techniques.
@@ -20,24 +20,17 @@ For example, if you want to display image with filter, you just need to insert t
 [instafx width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]
 
 Default filters:
-* Vintage
-* Lomo
-* Clarity
-* SinCity
+* Majesty
 * Sunrise
-* CrossProcess
-* OrangPeel
+* Cross
+* Peel
 * Love
-* Grungy
-* Jarques
 * Pinhole
-* OldBoot
-* GlowingSun
-* HazyDays
-* HerMajesty
+* Glowing
+* Hazy
 * Nostalgia
 * Hemingway
-* Concentrate
+* Boot
 
 [vimeo http://vimeo.com/55519219]
 
