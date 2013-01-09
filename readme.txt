@@ -58,6 +58,9 @@ Automatic updates should work a charm; as always though, ensure you backup your 
 
 == Changelog ==
 
+= 1.1.0 =
+* Compatible with WordPress 3.5!
+
 = 1.0.0 =
 * First release!
 
