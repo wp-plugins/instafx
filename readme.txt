@@ -3,7 +3,7 @@ Contributors: colorlabs
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@colorlabsproject.com&item_name=Donation+for+InstaFX
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.3
-Tested up to: WordPress 3.4.2
+Tested up to: WordPress 3.5.0
 Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

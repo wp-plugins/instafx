@@ -3,7 +3,7 @@
 Plugin Name: InstaFX
 Plugin URI: http://colorlabsproject.com
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.0
+Version: 1.1
 Author: ColorLabs & Company
 Author URI: htttp://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -32,6 +32,9 @@ class Colabs_Photofilter
 		
 		add_filter( 'instafx_send_to_editor_url', array( &$this, 'media_send_to_editor_instafx'));
 		
+		add_filter( 'media_send_to_editor', array(&$this, 'media_send_to_editor35'), 10, 8);
+		if(get_bloginfo('version') < '3.5' )
+		add_filter( 'media_send_to_editor', array(&$this,'media_send_to_editor34'), 20, 3);
 	}
 		
 	function instafx_attachment_image_fields_to_edit( $form_fields, $attachment ) {  
@@ -52,6 +55,7 @@ class Colabs_Photofilter
 						 '</label> ';
 				$i++;		 
 			}
+			if(get_bloginfo('version') < '3.5' )
 			if( !strstr($_SERVER['REQUEST_URI'], 'wp-admin/media.php') ) $data .= '<div style="clear:left;"></div>'.get_submit_button( __( 'Insert filter into Post' ), 'primary', 'insertonlybuttoninstafx['.$attachment->ID.']', false );
 			
 			$form_fields[ 'effect' ] = array();   
@@ -107,6 +111,45 @@ class Colabs_Photofilter
 		</script>
 		<?php
 			exit;
+	}
+	
+	function media_send_to_editor35($html, $send_id, $attachment) {
+	
+		$valuefilter='';
+		$datavaluefilter = get_post_meta( $send_id, '_instafx_effect', true);
+			
+		if($datavaluefilter!='') foreach($datavaluefilter as $key => $valuef ) $valuefilter .= $valuef.' '; 
+			
+		$html = str_ireplace('src=', 'data-caman="'.$valuefilter.'" src=', $html);
+		return $html;
+		
+	}
+	
+	function media_send_to_editor34($html, $send_id, $attachment) {
+		$attachment = get_post($send_id); 
+
+		$mime_type = $attachment->post_mime_type; 
+		if (substr($mime_type, 0, 5) == 'image') { 
+				
+				$effects = $_POST['attachments'][$send_id]['effect'];
+
+				foreach($effects as $effect => $value){ 
+					$filter .= ' '.$value;
+				}
+						
+			//$html = str_ireplace('src=', 'data-caman="'.$filter.'" src=', $html);
+			
+		}	
+			$filters = array( 'majesty', 'sunrise', 'cross', 'peel', 'love', 'pinhole', 'glowing', 'hazy', 'nostalgia', 'hemingway', 'boot');
+			sort($filters);
+			$i=0;
+			$url='http://demo.colorlabsproject.com/12.png';
+			$html .='<div style="padding:5px; float:left; position:relative" class="instafx"><img src="'.$url.'" width="200" height="200" /><div style="position:absolute;top: 0px;background: #000;color:#fff;padding: 0 5px;font-weight: bold;">Original</div></div>';
+			foreach($filters as $filter => $value){ 
+				$html .='<div style="padding:5px; float:left; position:relative" class="instafx"><img src="'.$url.'" width="200" height="200" data-caman="'.$value.'()" /><div style="position:absolute;top: 0px;background: #000;color:#fff;padding: 0 5px;font-weight: bold;">'.ucfirst($value).'</div></div>';
+			}
+		
+		return $html;
 	}
 	
 	function instafx_equeue() {
