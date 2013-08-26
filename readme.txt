@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@c
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.3
 Tested up to: WordPress 3.5.0
-Stable tag: 1.0.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
