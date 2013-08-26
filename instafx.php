@@ -3,7 +3,7 @@
 Plugin Name: InstaFX
 Plugin URI: http://colorlabsproject.com
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.1.0
+Version: 1.1.1
 Author: ColorLabs & Company
 Author URI: htttp://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -48,15 +48,21 @@ class Colabs_Photofilter
 			$filters = array( 'majesty', 'sunrise', 'cross', 'peel', 'love', 'pinhole', 'glowing', 'hazy', 'nostalgia', 'hemingway', 'boot');
 			sort($filters);
 			$i=0;
+			$data = '';
 			foreach($filters as $filter => $value){ 
-				 if(strpos($valuefilter, $value) === false) $check = ''; else  $check = ' checked ';
-				$data .= '<label for="attachments['.$attachment->ID.'][effect]['.$i.']" style="float:left; display:block; margin-bottom:5px; font-weight: bold; width:30%!important;">
-							<input type="checkbox" value="'.$value.'()" name="attachments['.$attachment->ID.'][effect][]" id="attachments['.$attachment->ID.'][effect]['.$i.']" '.$check.' /> '.ucfirst($value).
+				if(strpos($valuefilter, $value) === false) 
+					$check = ''; 
+				else  
+					$check = ' checked ';
+				
+				$data .= '<label for="attachments['.$attachment->ID.'][effect]['.$i.']" style="display:block; margin-top: 10px; clear:both;">
+							<input style="float:left; width:auto; margin-right:5px;" type="checkbox" value="'.$value.'()" name="attachments['.$attachment->ID.'][effect][]" id="attachments['.$attachment->ID.'][effect]['.$i.']" '.$check.' /> '.ucfirst($value).
 						 '</label> ';
 				$i++;		 
 			}
 			if(get_bloginfo('version') < '3.5' )
-			if( !strstr($_SERVER['REQUEST_URI'], 'wp-admin/media.php') ) $data .= '<div style="clear:left;"></div>'.get_submit_button( __( 'Insert filter into Post' ), 'primary', 'insertonlybuttoninstafx['.$attachment->ID.']', false );
+			if( !strstr($_SERVER['REQUEST_URI'], 'wp-admin/media.php') ) 
+			$data .= '<div style="clear:left;"></div>'.get_submit_button( __( 'Insert filter into Post' ), 'primary', 'insertonlybuttoninstafx['.$attachment->ID.']', false );
 			
 			$form_fields[ 'effect' ] = array();   
 			$form_fields[ 'effect' ][ 'label'  ] = __( 'Effect' );	      
@@ -70,6 +76,8 @@ class Colabs_Photofilter
 	function instafx_attachment_image_fields_to_save( $post, $attachment ) {
 		if ( isset( $attachment[ 'effect' ] ) ){ 
 			update_post_meta( $post[ 'ID' ], '_instafx_effect', $attachment[ 'effect' ] );  
+		}else{
+			update_post_meta( $post[ 'ID' ], '_instafx_effect', '' );  
 		} 
 		return $post;  
 	}
@@ -119,8 +127,11 @@ class Colabs_Photofilter
 		$datavaluefilter = get_post_meta( $send_id, '_instafx_effect', true);
 			
 		if($datavaluefilter!='') foreach($datavaluefilter as $key => $valuef ) $valuefilter .= $valuef.' '; 
-			
+		
+		if( '' != trim($valuefilter) )
 		$html = str_ireplace('src=', 'data-caman="'.$valuefilter.'" src=', $html);
+		
+		
 		return $html;
 		
 	}
