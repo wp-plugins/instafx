@@ -15,9 +15,9 @@ The main focus of InstaFX is manipulating images using the HTML5 canvas and Java
 
 For example, if you want to display image with filter, you just need to insert the following shortcode:
 
-`* [instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ]`
-`* [instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
-`* [instafx width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
+`[instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ]`
+`[instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
+`[instafx width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
 
 <h4>Default filters:</h4>
 
