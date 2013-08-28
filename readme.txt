@@ -60,6 +60,9 @@ Automatic updates should work a charm; as always though, ensure you backup your 
 
 == Changelog ==
 
+= 1.1.2 =
+* WordPress Gallery Shortcode Integration
+
 = 1.1.1 =
 * Compatible with WordPress 3.6!
 
