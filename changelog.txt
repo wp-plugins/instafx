@@ -1,11 +1,11 @@
 *** Instafx Changelog ***
 
 2013.08.26 - Version 1.1.1 
-- Fix: Compatible With WordPress 3.6!
+- Fix: Compatible with WordPress 3.6!
   File Affected: instafx.php
   
 2013.01.09 - Version 1.1.0
-- Fix: Compatible With WordPress 3.5!
+- Fix: Compatible with WordPress 3.5!
   File Affected: instafx.php
 
 2012.12.12 - Version 1.0.0
