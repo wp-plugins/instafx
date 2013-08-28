@@ -3,9 +3,9 @@
 Plugin Name: InstaFX
 Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.1.1
+Version: 1.1.2
 Author: ColorLabs & Company
-Author URI: http://colorlabsproject.com/
+Author URI: http://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
@@ -195,12 +195,22 @@ class Colabs_Photofilter
 		if($class!='') 	$size.=' class="'.$class.'" ';
 		if($id!='') 	$size.=' height="'.$id.'" ';
 		
-		if($effect!='') $caman.=' data-caman="'.$effect.'" ';
+		if($effect!='') {
+			
+			$filters = array( 'majesty', 'sunrise', 'cross', 'peel', 'love', 'pinhole', 'glowing', 'hazy', 'nostalgia', 'hemingway', 'boot');
+			foreach ($filters as $val) {
+				//if(strpos($effect,$val))
+				$effect = str_ireplace($val, $val.'()', $effect);				
+			}	
+		
+			$caman.=' data-caman="'.$effect.'" ';
+			
+		}	
 		
 		if(trim($src)!='') $img .= html_entity_decode($before).'<img src='.$src.$size.$caman.' />'.html_entity_decode($after);
 				
 		if($content!=null){
-			$img .= str_ireplace('<img ','<img '.$caman, $content );
+			$img .= str_ireplace('<img ','<img '.$caman, do_shortcode($content) );
 		}
 		
 		if($img!='') return do_shortcode($img);	

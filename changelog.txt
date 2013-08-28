@@ -1,5 +1,9 @@
 *** Instafx Changelog ***
 
+2013.08.28 - Version 1.1.2
+- Fix: WordPress Gallery Shortcode Integration
+  File Affected: instafx.php
+
 2013.08.26 - Version 1.1.1 
 - Fix: Compatible with WordPress 3.6!
   File Affected: instafx.php

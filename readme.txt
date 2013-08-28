@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@c
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.3
 Tested up to: WordPress 3.5.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,9 +14,13 @@ Power up your WordPress site with InstaFX, Add filtering to your WordPress image
 The main focus of InstaFX is manipulating images using the HTML5 canvas and Javascript. It's a combination of a simple-to-use interface with advanced and efficient image/canvas editing techniques.
 
 For example, if you want to display image with filter, you just need to insert the following shortcode:
-`[instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ]`
+`[instafx effect="love" ]`
 `[instafx src="" width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
 `[instafx width="" height="" title="" rel="" class="" id="" before="" after=""  effect="" ] Your Content contain image [/instafx]`
+
+The example of use gallery shortcode when using instafx
+`[instafx effect="majesty, sunrise" ] [gallery ids="1570,763"] [/instafx]`
+
 <h4>Default filters:</h4>
 
 * Majesty
