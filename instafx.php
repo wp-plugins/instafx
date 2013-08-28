@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
 Version: 1.1.1
 Author: ColorLabs & Company
-Author URI: htttp://www.colorlabsproject.com
+Author URI: http://colorlabsproject.com/
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
