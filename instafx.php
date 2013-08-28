@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: InstaFX
-Plugin URI: http://colorlabsproject.com
+Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
 Version: 1.1.1
 Author: ColorLabs & Company
