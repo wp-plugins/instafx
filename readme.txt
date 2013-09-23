@@ -62,10 +62,10 @@ Automatic updates should work a charm; as always though, ensure you backup your 
 
 = 1.1.3 =
 * Add: Feature Image Editor and 2 New Effect
-  Files Added: scripts.js, admin-style.css, blues.js, rontgen.js 
-  File Affected: instafx.php
+** Files Added: scripts.js, admin-style.css, blues.js, rontgen.js 
+** File Affected: instafx.php
 * Fix: Edit Image 
-  File Affected: instafx.php
+** File Affected: instafx.php
 	
 = 1.1.2 =
 * WordPress Gallery Shortcode Integration
