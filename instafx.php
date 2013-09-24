@@ -59,7 +59,7 @@ class Colabs_Photofilter
 	function instafx_action_links( $links ) {
 
 		$plugin_links = array(
-			'<a href="http://colorlabsproject.com/documentation/instafx-a-photo-filter-wordpress-plugin" target="_blank">' . __( 'Documentation' ) . '</a>'
+			'<a href="http://colorlabsproject.com/documentation/instafx/" target="_blank">' . __( 'Documentation' ) . '</a>'
 		);
 
 		return array_merge( $plugin_links, $links );
