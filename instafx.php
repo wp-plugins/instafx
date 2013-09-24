@@ -9,7 +9,7 @@ Author URI: http://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
-error_reporting(E_ALL ^ E_STRICT);
+error_reporting();
 if ( ! defined( 'ABSPATH' ) )
 	die( __("Can't load this file directly") );	
 
