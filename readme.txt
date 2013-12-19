@@ -3,8 +3,8 @@ Contributors: colorlabs
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@colorlabsproject.com&item_name=Donation+for+InstaFX
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.3
-Tested up to: WordPress 3.6.1
-Stable tag: 1.1.3
+Tested up to: WordPress 3.8
+Stable tag: 1.1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,6 +59,10 @@ Automatic updates should work a charm; as always though, ensure you backup your 
 3. Insert your image into the post and publish your post.
 
 == Changelog ==
+
+= 1.1.4 =
+* Fix: Compatibility with WordPress 3.8 and WooCommerce 2.0.20
+** Files Affected: instafx.php, admin-style.css, 
 
 = 1.1.3 =
 * Add: Feature Image Editor and 2 New Effect

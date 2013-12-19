@@ -3,7 +3,7 @@
 Plugin Name: InstaFX
 Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.1.3
+Version: 1.1.4
 Author: ColorLabs & Company
 Author URI: http://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -31,11 +31,8 @@ class Colabs_Photofilter
 		add_action('wp_footer', array( &$this, 'instafx_equeue_front') );	
 		
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'instafx_action_links' ) );
-		
-		//add_action('admin_notices', array( &$this,'instafx_admin_notice') );
-		//add_action('admin_init', array( &$this,'instafx_nag_ignore') );	
+			
 		add_action('admin_enqueue_scripts', array( &$this,'instafx_admin_pointers_header' ) );
-		//register_deactivation_hook( __FILE__, array( &$this,'instafx_deactivate') );
 		
 		add_filter( 'media_row_actions', array( &$this, 'add_media_instafx_action' ), 10, 2 );
 		$this->capability = apply_filters( 'instafx_cap', 'manage_options' );
@@ -111,7 +108,7 @@ class Colabs_Photofilter
 					$attachment = array(
 							 'guid' => $upload_dir['baseurl'] . _wp_relative_upload_path( $filename ), 
 							 'post_mime_type' => $wp_filetype['type'],
-							 'post_title' => $name,//preg_replace('/\.[^.]+$/', '', basename($filename)),
+							 'post_title' => $name,
 							 'post_content' => '',
 							 'post_status' => 'inherit'
 					);
@@ -141,8 +138,8 @@ class Colabs_Photofilter
 	}
 
 	function add_admin_menu_filter() {
-		//add_management_page( __( 'Instafx' ), __( 'Instafx' ), $this->capability, 'instafx-page', array(&$this, 'instafx_interface_advanced') );
-		add_menu_page( __( 'Instafx' ), __( 'Instafx' ), $this->capability, 'instafx-page', array(&$this, 'instafx_interface_advanced'), plugin_dir_url( __FILE__ )."images/menu-icon.png", 6 );
+		add_menu_page( __( 'Instafx' ), __( 'Instafx' ), $this->capability, 'instafx-page', array(&$this, 'instafx_interface_advanced'), plugin_dir_url( __FILE__ )."images/menu-icon.png" );
+		
 		remove_menu_page('instafx-page');
 	}
 	
@@ -409,7 +406,6 @@ class Colabs_Photofilter
 					$filter .= ' '.$value;
 				}
 						
-			//$html = str_ireplace('src=', 'data-caman="'.$filter.'" src=', $html);
 			
 		}	
 			sort($this->filters);
@@ -478,7 +474,6 @@ class Colabs_Photofilter
 		if($effect!='') {
 			
 			foreach ($this->filters as $val) {
-				//if(strpos($effect,$val))
 				$effect = str_ireplace($val, $val.'()', $effect);				
 			}	
 		
