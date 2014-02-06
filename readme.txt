@@ -35,7 +35,7 @@ The example of use gallery shortcode when using instafx
 * Hemingway
 * Boot
 
-[vimeo http://vimeo.com/55519219]
+[youtube http://www.youtube.com/watch?v=eMPhux-lL1M]
 
 == Installation ==
 
