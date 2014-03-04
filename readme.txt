@@ -52,6 +52,10 @@ The example of use gallery shortcode when using instafx
 
 Automatic updates should work a charm; as always though, ensure you backup your site just in case. 
 
+== Frequently Asked Questions ==
+
+No frequently asked question.
+
 == Screenshots ==
 
 1. Upload your image.
@@ -61,15 +65,16 @@ Automatic updates should work a charm; as always though, ensure you backup your 
 == Changelog ==
 
 = 1.1.4 =
-* Fix: Compatibility with WordPress 3.8 and WooCommerce 2.0.20
-** Files Affected: instafx.php, admin-style.css, 
+* Fix: Compatibility with WordPress 3.8 and WooCommerce 2.0.20    
+Files Affected: instafx.php, admin-style.css, 
 
 = 1.1.3 =
-* Add: Feature Image Editor and 2 New Effect
-** Files Added: scripts.js, admin-style.css, blues.js, rontgen.js 
-** File Affected: instafx.php
-* Fix: Edit Image 
-** File Affected: instafx.php
+* Add: Feature Image Editor and 2 New Effect    
+Files Added: scripts.js, admin-style.css, blues.js, rontgen.js    
+File Affected: instafx.php
+
+* Fix: Edit Image    
+File Affected: instafx.php
 	
 = 1.1.2 =
 * WordPress Gallery Shortcode Integration

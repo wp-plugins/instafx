@@ -3,14 +3,14 @@
 2013.12.19 - Version 1.1.4
 - Fix: Compatibility with WordPress 3.8 and WooCommerce 2.0.20
   Files Affected: instafx.php, admin-style.css
-	
+  
 2013.09.23 - Version 1.1.3
 - Add: Feature Image Editor and 2 New Effect
   Files Added: scripts.js, admin-style.css, blues.js, rontgen.js 
   File Affected: instafx.php
 - Fix: Edit Image 
   File Affected: instafx.php
-	
+  
 2013.08.28 - Version 1.1.2
 - Fix: WordPress Gallery Shortcode Integration
   File Affected: instafx.php
