@@ -2,9 +2,9 @@
 Contributors: colorlabs
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@colorlabsproject.com&item_name=Donation+for+InstaFX
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
-Requires at least: 3.3
-Tested up to: 3.8
-Stable tag: 1.1.4
+Requires at least: 3.5
+Tested up to: 4.1
+Stable tag: 1.1.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -44,7 +44,7 @@ The example of use gallery shortcode when using instafx
 
 = Minimum Requirements =
 
-* WordPress 3.3 or greater
+* WordPress 3.5 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -63,6 +63,9 @@ No frequently asked question.
 3. Insert your image into the post and publish your post.
 
 == Changelog ==
+
+= 1.1.5 = 
+* Fix: Compatibility with WordPress 4.1
 
 = 1.1.4 =
 * Fix: Compatibility with WordPress 3.8 and WooCommerce 2.0.20    

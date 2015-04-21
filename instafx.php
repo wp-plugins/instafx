@@ -3,7 +3,7 @@
 Plugin Name: InstaFX
 Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.1.4
+Version: 1.1.5
 Author: ColorLabs & Company
 Author URI: http://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -20,68 +20,93 @@ class Colabs_Photofilter
 	public $consumer_secret = 'RqEiNy3RksnYm29T3TCnb1pSbOZUcdIxZrAyS9Fs';
 
 
+	/**
+	 * Class Constructor
+	 */
 	function __construct() {
-		add_action( 'init', array( &$this, 'instafx_init' ) );		
+		add_action( 'init', array( $this, 'instafx_init' ) );		
 	}
 	
+
+	/**
+	 * Hook into init
+	 * @return [type] [description]
+	 */
 	function instafx_init(){ 
 		$this->get_instafx_effects();
-		add_shortcode( 'instafx', array( &$this, 'photo_filter') );
-		add_action('wp_print_scripts', array( &$this, 'instafx_equeue') );
-		add_action('wp_footer', array( &$this, 'instafx_equeue_front') );	
+
+		// InstaFX shortcode
+		add_shortcode( 'instafx', array( $this, 'photo_filter' ) );
+		add_action( 'wp_print_scripts', array( $this, 'instafx_enqueue' ) );
+		add_action( 'wp_footer', array( $this, 'instafx_enqueue_front' ) );	
 		
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'instafx_action_links' ) );
 			
-		add_action('admin_enqueue_scripts', array( &$this,'instafx_admin_pointers_header' ) );
+		add_action('admin_enqueue_scripts', array( $this,'instafx_admin_pointers_header' ) );
 		
-		add_filter( 'media_row_actions', array( &$this, 'add_media_instafx_action' ), 10, 2 );
+		add_filter( 'media_row_actions', array( $this, 'add_media_instafx_action' ), 10, 2 );
 		$this->capability = apply_filters( 'instafx_cap', 'manage_options' );
-		add_action( 'admin_menu', array( &$this, 'add_admin_menu_filter' ) );
-		add_action( 'admin_init', array( &$this, 'instafx_options_init') );
+		add_action( 'admin_menu', array( $this, 'add_admin_menu_filter' ) );
+		add_action( 'admin_init', array( $this, 'instafx_options_init') );
 
-		add_filter( 'attachment_fields_to_edit', array( &$this, 'instafx_attachment_image_fields_to_edit'), null, 2 );
-		add_filter( 'attachment_fields_to_save', array( &$this, 'instafx_attachment_image_fields_to_save'), null, 2 );
-		
-		add_filter( 'media_upload_library', array( &$this, 'wp_media_upload_handler_instafx') );
-		add_filter( 'media_upload_gallery', array( &$this, 'wp_media_upload_handler_instafx') );
-		add_filter( 'media_upload_image', array( &$this, 'wp_media_upload_handler_instafx') );
-		
-		add_filter( 'instafx_send_to_editor_url', array( &$this, 'media_send_to_editor_instafx'));
-		
-		add_filter( 'media_send_to_editor', array(&$this, 'media_send_to_editor35'), 10, 8);
-		if(get_bloginfo('version') < '3.5' )
-		add_filter( 'media_send_to_editor', array(&$this,'media_send_to_editor34'), 20, 3);
+		add_filter( 'attachment_fields_to_edit', array( $this, 'instafx_attachment_image_fields_to_edit'), null, 2 );
+		add_filter( 'attachment_fields_to_save', array( $this, 'instafx_attachment_image_fields_to_save'), null, 2 );
+		add_action( 'wp_ajax_save-attachment-compat', array( $this, 'instafx_attachment_image_fields_to_save_ajax' ), 0, 1 );
+
+		add_filter( 'media_send_to_editor', array( $this, 'media_send_to_editor35'), 10, 8);
+
+		// Legacy Media Library
+		add_filter( 'media_upload_library', array( $this, 'wp_media_upload_handler_instafx') );
+		add_filter( 'media_upload_gallery', array( $this, 'wp_media_upload_handler_instafx') );
+		add_filter( 'media_upload_image', array( $this, 'wp_media_upload_handler_instafx') );
+		add_filter( 'instafx_send_to_editor_url', array( $this, 'media_send_to_editor_instafx'));
+
+		if( get_bloginfo('version') < '3.5' ) {
+			add_filter( 'media_send_to_editor', array( $this, 'media_send_to_editor34'), 20, 3);
+		}
 	}
 	
-	function instafx_action_links( $links ) {
 
+	/**
+	 * Add documentation link on plugin list page
+	 */
+	function instafx_action_links( $links ) {
 		$plugin_links = array(
 			'<a href="http://colorlabsproject.com/documentation/instafx/" target="_blank">' . __( 'Documentation' ) . '</a>'
 		);
-
 		return array_merge( $plugin_links, $links );
 	}
 	
+
+	/**
+	 * Deactivated
+	 */
 	function instafx_deactivate() {
-		global $current_user ;
-		
+		global $current_user;
 		$user_id = $current_user->ID; 
 		delete_user_meta($user_id, 'instafx_ignore_notice');
-		
-		
 	}
+
+
+	/**
+	 * Register InstaFX options
+	 */
 	function instafx_options_init(){
-		register_setting( 'instafx_options', 'instafx_field', array( &$this, 'instafx_validate' ) );
-	}	
+		register_setting( 'instafx_options', 'instafx_field', array( $this, 'instafx_validate' ) );
+	}
+
 	
+	/**
+	 * Validate InstaFX options
+	 */
 	function instafx_validate($input) {		
-		
 		$photo = $input['sendimage'];
 		
-		if (preg_match('/^data:image\/(jpg|jpeg|png)/i', $photo, $matches)) 
+		if (preg_match('/^data:image\/(jpg|jpeg|png)/i', $photo, $matches)) {
 			$type = $matches[1];
-		else 
-			$type = null;		
+		} else {
+			$type = null;
+		}
 		
 		// Remove the mime-type header
 		$data = reset(array_reverse(explode('base64,', $photo)));
@@ -125,8 +150,12 @@ class Colabs_Photofilter
 			
 		$input['sendimage'] =  '';
 		return $input;
-		
 	}
+
+
+	/**
+	 * Add Filter URL on media list page
+	 */
 	function add_media_instafx_action( $actions, $post ) {
 		if ( 'image/' != substr( $post->post_mime_type, 0, 6 ) || ! current_user_can( $this->capability ) )
 			return $actions;
@@ -137,12 +166,21 @@ class Colabs_Photofilter
 		return $actions;
 	}
 
+
+	/**
+	 * InstaFX effect edit page
+	 */
 	function add_admin_menu_filter() {
-		add_menu_page( __( 'Instafx' ), __( 'Instafx' ), $this->capability, 'instafx-page', array(&$this, 'instafx_interface_advanced'), plugin_dir_url( __FILE__ )."images/menu-icon.png" );
+		add_menu_page( __( 'Instafx' ), __( 'Instafx' ), $this->capability, 'instafx-page', array($this, 'instafx_interface_advanced'), plugin_dir_url( __FILE__ )."images/menu-icon.png" );
 		
+		// Remove from menu but still accessible
 		remove_menu_page('instafx-page');
 	}
 	
+
+	/**
+	 * InstaFX Admin notice
+	 */
 	function instafx_admin_notice() {
 		global $current_user ;
 			$user_id = $current_user->ID; 
@@ -162,14 +200,17 @@ class Colabs_Photofilter
 
 	function instafx_nag_ignore() {
 		global $current_user;
-			$user_id = $current_user->ID;
-			/* If user clicks to ignore the notice, add that to their user meta */
-			if ( isset($_GET['instafx_nag_ignore']) && '0' == $_GET['instafx_nag_ignore'] ) {
-				 add_user_meta($user_id, 'instafx_ignore_notice', 'true', true);
+		$user_id = $current_user->ID;
+		/* If user clicks to ignore the notice, add that to their user meta */
+		if ( isset($_GET['instafx_nag_ignore']) && '0' == $_GET['instafx_nag_ignore'] ) {
+			add_user_meta($user_id, 'instafx_ignore_notice', 'true', true);
 		}
-}
+	}
 	
-	//
+
+	/**
+	 * InstaFX image settings page
+	 */
 	function instafx_interface_advanced($img = ''){
 		echo '<div class="outer-wrapper">';
 		
@@ -181,27 +222,24 @@ class Colabs_Photofilter
 			?>
 			
 			<?php if( isset($_GET['settings-updated']) && $_GET['settings-updated']=='true' ){ ?>
-					<div id="message" class="updated fade" style="">
-						<p><strong><?php _e("Success"); ?>.</strong></p>
-					</div>
-					<?php 
-				}?>
+				<div id="message" class="updated fade" style="">
+					<p><strong><?php _e("Success"); ?>.</strong></p>
+				</div>
+			<?php } ?>
+
 			<div class="colabs_twitter_stream">
-
 				<div class="stream-label"><?php _e('News On Twitter:','colabsthemes');?></div>				
-				
-				  <?php $user_timeline = $this->instafx_get_user_timeline( 'colorlabs', 5 );  ?>
-				  <?php if( isset( $user_timeline['error'] ) ) : ?>
-					<p><?php echo $user_timeline['error']; ?></p>
-				  <?php else : ?>
-					<?php $this->instafx_build_twitter_markup( $user_timeline ); ?>
-				  <?php endif; ?>
-				
-
+			  <?php $user_timeline = $this->instafx_get_user_timeline( 'colorlabs', 5 );  ?>
+			  <?php if( isset( $user_timeline['error'] ) ) : ?>
+				<p><?php echo $user_timeline['error']; ?></p>
+			  <?php else : ?>
+				<?php $this->instafx_build_twitter_markup( $user_timeline ); ?>
+			  <?php endif; ?>
 			</div>
-    <!-- .colabs_twitter-stream -->
-			<div id="instafx-container" class="wrap">
+    	<!-- .colabs_twitter-stream -->
 
+
+			<div id="instafx-container" class="wrap">
 				<div class="instafx-sidebar">
 					<div class="instafx-logo">				
 						<h3>
@@ -226,7 +264,7 @@ class Colabs_Photofilter
 						<?php 
 						endforeach; ?>			
 					</ul>			
-				</div>
+				</div><!-- .instafx-sidebar -->
 				
 				<div id="instafx-addon" class="module-list">
 					<form action="options.php" method="post">	
@@ -252,78 +290,94 @@ class Colabs_Photofilter
 						</div>
 						
 					</form>
-				</div>
+				</div><!-- #instafx-addon -->
 				
 				<script>
-					jQuery('document').ready(function () {	
-						jQuery("#submit").hide();				
-					
-						var image = Caman("#preset-example", function () {});
-						
-						jQuery('.preset-button').live('click', function () {
-							var filter = jQuery(this).attr('caman').split('-')[1];
-							jQuery('#name-effect').html(filter);
-							jQuery('#name').val( "<?php echo get_the_title($_REQUEST['id']); ?>-" + filter);
-							render(filter);
-						});
-						
-						function render(filter) {
-							jQuery("#submit").hide();
-							jQuery("#render-in-progress").show();
-							var type = 'jpeg';
+					(function($){
+						$('document').ready(function () {	
+							$("#submit").hide();
+							var image = Caman("#preset-example", function () {});
 							
-							image.revert(function () {
-								//this.toBase64(type);
-								image[filter]().render(function () {
-									jQuery("#render-in-progress").hide();
-									jQuery("#submit").show();
-									jQuery("#data").val(this.toBase64(type));
-									jQuery("#preset-export").attr('src',this.toBase64(type));
-								});
+							$('.instafx-menu').on( 'click', '.preset-button', function () {
+								var filter = $(this).attr('caman').split('-')[1];
+								$('#name-effect').html(filter);
+								$('#name').val( "<?php echo get_the_title($_REQUEST['id']); ?>-" + filter);
+								render(filter);
 							});
-						}
-					});
+							
+							function render(filter) {
+								$("#submit").hide();
+								$("#render-in-progress").show();
+								var type = 'jpeg';
+
+								image.revert(function () {
+									//this.toBase64(type);
+									image[filter]().render(function () {
+										$("#render-in-progress").hide();
+										$("#submit").show();
+										$("#data").val(this.toBase64(type));
+										$("#preset-export").attr('src',this.toBase64(type));
+									});
+								});
+							}
+						});
+					})(jQuery);
 				</script>
 				<style> </style>
 			<?php 
-			$this->instafx_equeue_front();
+			$this->instafx_enqueue_front();
 		endif;
 		echo '</div>';
 		echo '<p id="colabsplugin-trademark">
 				<a href="http://colorlabsproject.com/" target="_blank" title="ColorLabs &amp; Company">
-				<img src="'.plugin_dir_url( __FILE__ ).'images/colorlabs.png"></a>
+					<img src="'.plugin_dir_url( __FILE__ ).'images/colorlabs.png">
+				</a>
 			  </p>';
 		echo '</div>';
 	}
 
+
+	/**
+	 * Show list of InstaFX effects on attachment edit page
+	 * @param  Object $attachment  WP Post Object
+	 */
 	function instafx_attachment_image_fields_to_edit( $form_fields, $attachment ) {  
 		if ( substr( $attachment->post_mime_type, 0, 5 ) == 'image' ){
 			$valuefilter='';
 			$datavaluefilter = get_post_meta( $attachment->ID, '_instafx_effect', true);
 			
-			if($datavaluefilter!='')
-			foreach($datavaluefilter as $key => $valuef ) $valuefilter .= $valuef.' '; 
+			if( $datavaluefilter != '' ) {
+				foreach($datavaluefilter as $key => $valuef ) {
+					$valuefilter .= $valuef.' ';
+				}
+			}
 		
 			sort($this->filters);
+
 			$i=0;
 			$data = '';
-			foreach($this->filters as $filter => $value){ 
-				if(strpos($valuefilter, $value) === false) 
+			foreach($this->filters as $filter => $value) { 
+				if(strpos($valuefilter, $value) === false) {
 					$check = ''; 
-				else  
+				} else {
 					$check = ' checked ';
+				}
 				
-				$data .= '<label for="attachments['.$attachment->ID.'][effect]['.$i.']" style="display:block; margin-top: 10px; clear:both;">
-							<input style="float:left; width:auto; margin-right:5px;" type="checkbox" value="'.$value.'()" name="attachments['.$attachment->ID.'][effect][]" id="attachments['.$attachment->ID.'][effect]['.$i.']" '.$check.' /> '.ucfirst($value).
-						 '</label> ';
+				$data .= '<p>';
+				$data .= '<input type="checkbox" value="'.$value.'()" name="attachments['.$attachment->ID.'][effect][]" id="attachments['.$attachment->ID.'][effect]['.$i.']" '.$check.' />';
+				$data .= '<label for="attachments['.$attachment->ID.'][effect]['.$i.']">'. ucfirst($value) .'</label>';
+				$data .= '</p>';
 				$i++;		 
 			}
-			if(get_bloginfo('version') < '3.5' )
-			if( !strstr($_SERVER['REQUEST_URI'], 'wp-admin/media.php') ) 
-			$data .= '<div style="clear:left;"></div>'.get_submit_button( __( 'Insert filter into Post' ), 'primary', 'insertonlybuttoninstafx['.$attachment->ID.']', false );
+
+			if( get_bloginfo('version') < '3.5' ) {
+				if( !strstr($_SERVER['REQUEST_URI'], 'wp-admin/media.php') ) {
+					$data .= '<div style="clear:left;"></div>'.get_submit_button( __( 'Insert filter into Post' ), 'primary', 'insertonlybuttoninstafx['.$attachment->ID.']', false );
+				}
+			}
 			
 			$form_fields[ 'effect' ] = array();   
-			$form_fields[ 'effect' ][ 'label'  ] = __( 'Effect' );	      
+			$form_fields[ 'effect' ][ 'label' ] = __( 'Effect' );	      
 			$form_fields[ 'effect' ][ 'helps' ] = '';
 			$form_fields[ 'effect' ][ 'input' ] = 'html';  
 			$form_fields[ 'effect' ][ 'html' ] = $data;
@@ -331,15 +385,51 @@ class Colabs_Photofilter
 		return $form_fields;
 	}
 	
+
+	/**
+	 * Action when attachment saved
+	 * @param  Object $post Post Object
+	 * @param  Array $attachment Attachement data
+	 */
 	function instafx_attachment_image_fields_to_save( $post, $attachment ) {
-		if ( isset( $attachment[ 'effect' ] ) ){ 
-			update_post_meta( $post[ 'ID' ], '_instafx_effect', $attachment[ 'effect' ] );  
-		}else{
-			update_post_meta( $post[ 'ID' ], '_instafx_effect', '' );  
-		} 
-		return $post;  
+		if( !defined('DOING_AJAX') ) {
+			if ( isset( $attachment[ 'effect' ] ) ){ 
+				update_post_meta( $post[ 'ID' ], '_instafx_effect', $attachment[ 'effect' ] );  
+			}else{
+				update_post_meta( $post[ 'ID' ], '_instafx_effect', '' );  
+			} 
+			return $post;
+		}
 	}
 
+
+	/**
+	 * Save Effect options via ajax
+	 */
+	function instafx_attachment_image_fields_to_save_ajax( ) {
+		$post_id = $_POST['id'];
+		$instafx_effect = get_post_meta( $post_id, '_instafx_effect', true );
+		
+		if( isset( $_POST['attachments'][$post_id]['effect'] ) ) {
+			if( is_array( $instafx_effect ) ) {
+				$instafx_effect = array_merge( $instafx_effect, $_POST['attachments'][$post_id]['effect'] );
+			} else {
+				$instafx_effect = $_POST['attachments'][$post_id]['effect'];
+			}
+			$instafx_effect = array_unique($instafx_effect);
+			
+			update_post_meta( $post_id, '_instafx_effect', $instafx_effect );
+		} else {
+			update_post_meta( $post_id, '_instafx_effect', '' );
+		}
+
+		clean_post_cache($post_id);
+	}
+
+
+	/**
+	 * Media Upload Library filter
+	 */
 	function wp_media_upload_handler_instafx(){
 		if ( !empty($_POST['insertonlybuttoninstafx']) ) {
 			if ( isset($_POST['insertonlybuttoninstafx']) ) {
@@ -379,21 +469,30 @@ class Colabs_Photofilter
 			exit;
 	}
 	
-	function media_send_to_editor35($html, $send_id, $attachment) {
-	
-		$valuefilter='';
+
+	/**
+	 * Add media to wp editor
+	 */
+	function media_send_to_editor35( $html, $send_id, $attachment ) {
+		$valuefilter = '';
 		$datavaluefilter = get_post_meta( $send_id, '_instafx_effect', true);
-			
-		if($datavaluefilter!='') foreach($datavaluefilter as $key => $valuef ) $valuefilter .= $valuef.' '; 
 		
-		if( '' != trim($valuefilter) )
-		$html = str_ireplace('src=', 'data-caman="'.$valuefilter.'" src=', $html);
+		if( $datavaluefilter!='' ) {
+			foreach($datavaluefilter as $key => $valuef ) {
+				$valuefilter .= $valuef.' '; 
+			}
+		}
 		
-		
+		if( '' != trim($valuefilter) ) {
+			$html = str_ireplace('src=', 'data-filter="'.$valuefilter.'" src=', $html);
+		}
+
 		return $html;
-		
 	}
 	
+	/**
+	 * Legacy add media to wp editor
+	 */
 	function media_send_to_editor34($html, $send_id, $attachment) {
 		$attachment = get_post($send_id); 
 
@@ -419,7 +518,11 @@ class Colabs_Photofilter
 		return $html;
 	}
 	
-	function instafx_equeue() {
+
+	/**
+	 * Enqueue scripts on InstaFX page
+	 */
+	function instafx_enqueue() {
 		wp_enqueue_script( 'instafxsrc', plugin_dir_url( __FILE__ ).'js/caman.full.min.js',array('jquery'));
 		
 		if(isset($_GET['page']) && $_GET['page'] == 'instafx-page'){
@@ -427,8 +530,12 @@ class Colabs_Photofilter
 			wp_enqueue_script( 'instafxscripts', plugin_dir_url( __FILE__ ).'js/scripts.js',array('jquery','instafxsrc'));
 		}
 	}
-	
-	function instafx_equeue_front() {
+		
+
+	/**
+	 * Enqueue scripts on frontpage
+	 */
+	function instafx_enqueue_front() {
 		foreach ( glob( plugin_dir_path( __FILE__ )."effects/*.js" ) as $file ) {
 
 			if ( ! preg_match( '|Effect Name:(.*)$|mi', file_get_contents( $file ), $header ) )
@@ -439,10 +546,42 @@ class Colabs_Photofilter
 				include_once($file);
 				echo '});
 			</script>';
+		}?>
 
-		}		
+		<script type="text/javascript">
+			(function($){
+				$(document).ready(function(){
+					var _results = [];
+
+					$('[data-filter]').each(function(){
+						var $image = $(this),
+								filterString = $.trim( $image.data('filter') ),
+								filters = filterString.split(' '),
+								classname = $image.attr('class');
+
+						$image.caman(function(){
+							var _self = this;
+							$.each( filters, function( index ) {
+								_self[ filters[index].replace('()','') ]();
+							});
+
+						  this.render(function(){
+						  	$image.attr('src',this.toBase64()).insertBefore( $(this.canvas) );
+						  	$(this.canvas).remove();
+						  });
+						});
+					});
+				});
+			})(jQuery);
+		</script>
+
+		<?php
 	}    
 	
+
+	/**
+	 * Filter
+	 */
 	function photo_filter( $atts, $content=null ) {
 		extract( shortcode_atts( array(
 			'src' => '',
@@ -487,33 +626,30 @@ class Colabs_Photofilter
 			$img .= str_ireplace('<img ','<img '.$caman, do_shortcode($content) );
 		}
 		
-		if($img!='') return do_shortcode($img);	
-		
+		if($img!='') return do_shortcode($img);
 	}
 	
+
+	/**
+	 * Let user to add new effects
+	 */
 	function get_instafx_effects() {
-
 		$instafx_effects = array();
-
 		foreach ( glob( plugin_dir_path( __FILE__ )."effects/*.js" ) as $file ) {
-
 			if ( ! preg_match( '|Effect Name:(.*)$|mi', file_get_contents( $file ), $header ) )
 				continue;
-
 			$instafx_effects[ $file ] = sanitize_title(_cleanup_header_comment( $header[1] ));
-
 		}
-
 		$this->filters = array_merge($this->filters, $instafx_effects);
-
 	}
 	
-	//pointer
 
+	/**
+	 * WordPress pointer on first install
+	 */
 	function instafx_admin_pointers_header() {
 		if ( $this->instafx_admin_pointers_check() ) {
-			add_action( 'admin_print_footer_scripts', array(&$this,'instafx_admin_pointers_footer') );
-
+			add_action( 'admin_print_footer_scripts', array($this,'instafx_admin_pointers_footer') );
 			wp_enqueue_script( 'wp-pointer' );
 			wp_enqueue_style( 'wp-pointer' );
 		}
@@ -580,17 +716,14 @@ class Colabs_Photofilter
 		);
 	}
 	
-	//
-	
-	//twitter
 
 	/**
-	* Linkify Twitter Text
-	* 
-	* @param string s Tweet
-	* 
-	* @return string a Tweet with the links, mentions and hashtags wrapped in <a> tags 
-	*/
+	 * Linkify Twitter Text
+	 * 
+	 * @param string s Tweet
+	 * 
+	 * @return string a Tweet with the links, mentions and hashtags wrapped in <a> tags 
+	 */
 	function instafx_linkify_twitter_text($tweet){
 		$url_regex = '/((https?|ftp|gopher|telnet|file|notes|ms-help):((\/\/)|(\\\\))+[\w\d:#@%\/\;$()~_?\+-=\\\.&]*)/';
 		$tweet = preg_replace($url_regex, '<a href="$1" target="_blank">'. "$1" .'</a>', $tweet);
@@ -605,10 +738,11 @@ class Colabs_Photofilter
 		return $tweet;
 	}
 
+
 	/**
-	* Get User Timeline
-	* 
-	*/
+	 * Get User Timeline
+	 * 
+	 */
 	function instafx_get_user_timeline( $username = '', $limit = 5 ) {
 		$key = "twitter_user_timeline_{$username}_{$limit}";
 
@@ -644,10 +778,11 @@ class Colabs_Photofilter
 		}
 	}
 
+
 	/**
-	* Get Twitter application-only access token
-	* @return string Access token
-	*/
+	 * Get Twitter application-only access token
+	 * @return string Access token
+	 */
 	function instafx_get_access_token() {
 		$consumer_key = urlencode( $this->consumer_key );
 		$consumer_secret = urlencode( $this->consumer_secret );
@@ -672,6 +807,7 @@ class Colabs_Photofilter
 		  return false;
 		}
 	}
+
 
 	/**
 	* Builder Twitter timeline HTML markup
