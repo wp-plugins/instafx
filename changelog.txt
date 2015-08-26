@@ -1,5 +1,9 @@
 *** Instafx Changelog ***
 
+2015.08.26 - Version 1.1.6
+- Fix: Compatibility with WordPress 4.3
+  Files Affected: instafx.php, admin-style.css, scripts.js
+  
 2015.04.21 - Version 1.1.5
 - Fix: Compatibility with WordPress 4.1
   File Affected: instafx.php

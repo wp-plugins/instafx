@@ -3,8 +3,8 @@
 Plugin Name: InstaFX
 Plugin URI: http://wordpress.org/extend/plugins/instafx/
 Description: Power up your WordPress site with InstaFX, Add filtering to your WordPress images.
-Version: 1.1.5
-Author: ColorLabs & Company
+Version: 1.1.6
+Author: Colorlabs & Company
 Author URI: http://www.colorlabsproject.com
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
@@ -212,7 +212,7 @@ class Colabs_Photofilter
 	 * InstaFX image settings page
 	 */
 	function instafx_interface_advanced($img = ''){
-		echo '<div class="outer-wrapper">';
+		echo '<div class="outer-wrapper wrap">';
 		
 		if(isset($_REQUEST['id']) && $_REQUEST['id']!='' ):
 			$src = wp_get_attachment_image_src($_REQUEST['id'],'full');
@@ -227,7 +227,7 @@ class Colabs_Photofilter
 				</div>
 			<?php } ?>
 
-			<div class="colabs_twitter_stream">
+			<div class="instafx-twitter-stream updated">
 				<div class="stream-label"><?php _e('News On Twitter:','colabsthemes');?></div>				
 			  <?php $user_timeline = $this->instafx_get_user_timeline( 'colorlabs', 5 );  ?>
 			  <?php if( isset( $user_timeline['error'] ) ) : ?>
@@ -239,7 +239,7 @@ class Colabs_Photofilter
     	<!-- .colabs_twitter-stream -->
 
 
-			<div id="instafx-container" class="wrap">
+			<div id="instafx-container">
 				<div class="instafx-sidebar">
 					<div class="instafx-logo">				
 						<h3>
@@ -363,10 +363,10 @@ class Colabs_Photofilter
 					$check = ' checked ';
 				}
 				
-				$data .= '<p>';
+				$data .= '<label class="setting" for="attachments['.$attachment->ID.'][effect]['.$i.']">';
 				$data .= '<input type="checkbox" value="'.$value.'()" name="attachments['.$attachment->ID.'][effect][]" id="attachments['.$attachment->ID.'][effect]['.$i.']" '.$check.' />';
-				$data .= '<label for="attachments['.$attachment->ID.'][effect]['.$i.']">'. ucfirst($value) .'</label>';
-				$data .= '</p>';
+				$data .= ucfirst($value);
+				$data .= '</label>';
 				$i++;		 
 			}
 
@@ -817,16 +817,16 @@ class Colabs_Photofilter
 		<?php foreach( $timelines as $item ) : ?>
 		  <?php 
 			$screen_name = $item->user->screen_name;
-			$profile_link = "http://twitter.com/{$screen_name}";
-			$status_url = "http://twitter.com/{$screen_name}/status/{$item->id}";
+			$profile_link = "https://twitter.com/{$screen_name}";
+			$status_url = "https://twitter.com/{$screen_name}/status/{$item->id}";
 		  ?>
 		  <li>
-			<span class="content">
-			  <?php echo $this->instafx_linkify_twitter_text( $item->text ); ?>
-			  <a href="<?php echo $status_url; ?>" style="font-size:85%" class="time" target="_blank">
+        <div class="tweet-content">
+          <?php echo $this->instafx_linkify_twitter_text( $item->text ); ?>
+        </div>
+        <span class="time"><a href="<?php echo $status_url; ?>" target="_blank">
 				<?php echo date('M j, Y', strtotime($item->created_at)); ?>
-			  </a>
-			</span>
+			  </a></span>
 		  </li>
 		<?php endforeach; ?>
 		</ul>

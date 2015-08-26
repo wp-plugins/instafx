@@ -1,10 +1,10 @@
-=== InstaFX by ColorLabs & Company ===
+=== InstaFX by Colorlabs & Company ===
 Contributors: colorlabs
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@colorlabsproject.com&item_name=Donation+for+InstaFX
 Tags: Majesty, Sunrise, Cross, Peel, Love, Pinhole, Glowing, Hazy, Nostalgia, Hemingway, BootFilter, Image, Effect, Camanjs
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 1.1.5
+Tested up to: 4.3
+Stable tag: 1.1.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,9 @@ No frequently asked question.
 3. Insert your image into the post and publish your post.
 
 == Changelog ==
+
+= 1.1.6 = 
+* Fix: Compatibility with WordPress 4.3
 
 = 1.1.5 = 
 * Fix: Compatibility with WordPress 4.1

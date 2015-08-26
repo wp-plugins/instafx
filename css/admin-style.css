@@ -19,7 +19,7 @@ html {
   -webkit-font-smoothing: antialiased
 }
 #instafx-container {
-  width: 99.5%;
+  width: 100%;
   margin-top: 0;
   background: #353535;
 }
@@ -568,6 +568,9 @@ height:auto;
 	text-align:right;
 	margin-right:10px;
 }
+#colabsplugin-trademark img{
+	width: 200px;
+}
 #name-effect{
 	text-transform:capitalize;
 }
@@ -577,28 +580,64 @@ height:auto;
 
 /* #Twitter Stream
 ==============================================================================*/
-.colabs_twitter_stream {
-	color: #666;
-	line-height: 22px;
-	margin-bottom:20px;
+.instafx-twitter-stream {
+	margin-bottom: 20px;
 }
-.colabs_twitter_stream .stream-label {
-	float: left;
-	font-weight: bold;
-	padding-left: 30px;
-	margin-right: 10px;
-	text-transform: uppercase;
-	background: url(../images/twitter.png) no-repeat left center;
+.instafx-twitter-stream.updated {
+  color: #666;
+  padding: 10px 12px 5px;
 }
-.colabs_twitter_stream a {
+.instafx-twitter-stream .stream-label {
+  background: url("../images/twitter.png") no-repeat scroll left center transparent;
+  float: left;
+  font-weight: bold;
+  margin-right: 10px;
+  padding-left: 30px;
+  text-transform: uppercase;
+	line-height: 20px;
+}
+.instafx-twitter-stream a {
 	text-decoration: none;
 }
-.colabs_twitter_stream ul {
+.instafx-twitter-stream .tweets {
 	margin: 0;
+  overflow: hidden;
 }
-.colabs_twitter_stream li {
+.instafx-twitter-stream li {
 	display: none;
 }
-.colabs_twitter_stream li:first-child {
+.instafx-twitter-stream li:first-child {
 	display: block
+}	
+.instafx-twitter-stream li .time a {
+  font-size:11px;
+  color:#bbb;
+  font-style:italic;
+}
+.instafx-twitter-stream .tweet-content {
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+@media (max-width: 977px){
+	.instafx-twitter-stream .stream-label{
+		float:none;
+	}
+	.instafx-twitter-stream li{
+		padding-left:0;
+	}
+	.instafx-twitter-stream ul {
+		margin: 0;
+		margin-left: 32px;
+		margin-top: 10px;
+	}
+  .instafx-twitter-stream .tweet-content{
+		white-space: normal;
+		text-overflow: initial;
+	}
+	.instafx-twitter-stream .tweets{
+		margin-top:10px
+	}
 }
